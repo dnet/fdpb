@@ -26,7 +26,7 @@ while True:
             pp = past_pos.get((pid, fd, link))
             if pp is not None:
                 speed = (pos - pp) / args.watch
-                sec = (size - pos) / speed
+                sec = (size - pos) / speed if speed else None
                 prefix = ''
                 if speed > 1024:
                     speed /= 1024
