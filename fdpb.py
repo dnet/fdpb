@@ -26,6 +26,7 @@ while True:
             pp = past_pos.get((pid, fd, link))
             if pp is not None:
                 speed = (pos - pp) / args.watch
+                sec = (size - pos) / speed
                 prefix = ''
                 if speed > 1024:
                     speed /= 1024
@@ -37,6 +38,8 @@ while True:
                     speed /= 1024
                     prefix = 'G'
                 speed = ' {0:5} {1}B/s'.format(speed, prefix)
+                if sec:
+                    speed += ' approx {0}:{1:02} left'.format(sec / 60, sec % 60)
             else:
                 speed = ''
             print '{0:3}% {1}/{2}{3}'.format(pos * 100 / size, pos, size, speed)
