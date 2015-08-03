@@ -3,6 +3,9 @@
 from argparse import ArgumentParser
 from time import sleep
 import os
+import re
+
+IGNORE_RE = re.compile(r'(^(?:/dev|(?:pipe|socket):)| \(deleted\)$)')
 
 parser = ArgumentParser(description='File descriptor progressbar')
 parser.add_argument('pid', nargs='+', type=int, metavar='PID')
@@ -17,7 +20,7 @@ while True:
         fds = os.listdir('/proc/{0}/fd'.format(pid))
         for fd in fds:
             link = os.readlink('/proc/{0}/fd/{1}'.format(pid, fd))
-            if link.startswith('/dev/') or link.startswith('pipe:[') or link.startswith('socket:[') or os.path.isdir(link) or link.endswith(' (deleted)'):
+            if IGNORE_RE.search(link) or os.path.isdir(link):
                 continue
             print link
             fdinfo = file('/proc/{0}/fdinfo/{1}'.format(pid, fd)).read()
