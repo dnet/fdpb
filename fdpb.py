@@ -5,7 +5,7 @@ from time import sleep
 import os
 import re
 
-IGNORE_RE = re.compile(r'(^(?:/dev|(?:pipe|socket|anon_inode):)| \(deleted\)$)')
+IGNORE_RE = re.compile(r'(^(?:/dev|(?:pipe|socket|anon_inode|eventpoll):)| \(deleted\)$)')
 
 parser = ArgumentParser(description='File descriptor progressbar')
 parser.add_argument('pid', nargs='+', type=int, metavar='PID')
